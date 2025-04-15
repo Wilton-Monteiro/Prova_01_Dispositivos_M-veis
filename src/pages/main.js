@@ -40,7 +40,7 @@ export default class Main extends Component {
 
   componentDidUpdate(_, prevState) {
     const { filmes } = this.state;
-    if (prevState.users !== filmes) {
+    if (prevState.filmes !== filmes) {
       AsyncStorage.setItem("filmes", JSON.stringify(filmes));
     }
   }
@@ -74,7 +74,7 @@ export default class Main extends Component {
 
       this.setState({
         filmes: [...filmes, filme],
-        newUser: "",
+        novoFilme: "",
         loading: false,
       });
       Keyboard.dismiss();
@@ -128,18 +128,18 @@ export default class Main extends Component {
                 }}
                 
               >
-                <ProfileButtonText>Mais detalhes</ProfileButtonText>
-              </ProfileButton>
+              <ProfileButtonText>Mais detalhes</ProfileButtonText>
+                </ProfileButton>
 
               <ProfileButton
                 onPress={() => {
                   this.setState({
-                    users: this.state.users.filter((user) => user.id !== item.id),
-                  });
-                }}
+                  filmes: this.state.filmes.filter((filmeExistente) => filmeExistente.id !== item.id),
+              });
+            }}
                 style={{ backgroundColor: "red" }}
-              >
-                <ProfileButtonText>Remover</ProfileButtonText>
+>
+            <ProfileButtonText>Remover</ProfileButtonText>
               </ProfileButton>
             </User>
           )}
