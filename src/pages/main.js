@@ -19,17 +19,17 @@ import {
 
 export default class Main extends Component {
   state = {
-    newUser: "",
-    users: [],
+    novoFilme: "",
+    filmes: [],
     loading: false,
     nickname:"",
   };
 
   async componentDidMount() {
-    const users = await AsyncStorage.getItem("users");
+    const filmes = await AsyncStorage.getItem("filmes");
     const user = await AsyncStorage.getItem("user");
-    if (users) {
-      this.setState({ users: JSON.parse(users) });
+    if (filmes) {
+      this.setState({ filmes: JSON.parse(filmes) });
     }
 
     if (user) {
@@ -39,18 +39,18 @@ export default class Main extends Component {
   }
 
   componentDidUpdate(_, prevState) {
-    const { users } = this.state;
-    if (prevState.users !== users) {
-      AsyncStorage.setItem("users", JSON.stringify(users));
+    const { filmes } = this.state;
+    if (prevState.users !== filmes) {
+      AsyncStorage.setItem("filmes", JSON.stringify(filmes));
     }
   }
 
-  handleAddUser = async () => {
+  handleAddFilme = async () => {
     try {
-      const { users, newUser } = this.state;
+      const { filmes, novoFilme } = this.state;
       this.setState({ loading: true });
 
-      const response = await fetch(`http://www.omdbapi.com/?t=${newUser}&apikey=fcd9cb3d`);
+      const response = await fetch(`http://www.omdbapi.com/?t=${novoFilme}&apikey=fcd9cb3d`);
       const data = await response.json();
 
       if (data.Response === "False") {
@@ -66,14 +66,14 @@ export default class Main extends Component {
         id: data.imdbID,
       };
 
-      if (users.find((user) => user.id === filme.id)) {
+      if (filmes.find((filmeExistente) => filmeExistente.id === filme.id)) {
         alert("Filme já adicionado!");
         this.setState({ loading: false });
         return;
       }
 
       this.setState({
-        users: [...users, filme],
+        filmes: [...filmes, filme],
         newUser: "",
         loading: false,
       });
@@ -85,7 +85,7 @@ export default class Main extends Component {
   };
 
   render() {
-    const { users, newUser, loading, nickname } = this.state;
+    const { filmes, novoFilme, loading, nickname } = this.state;
     return (
       <Container>
         {nickname ? (
@@ -98,12 +98,12 @@ export default class Main extends Component {
             autoCorrect={false}
             autoCapitalize="none"
             placeholder="Adicionar filme"
-            value={newUser}
-            onChangeText={(text) => this.setState({ newUser: text })}
+            value={novoFilme}
+            onChangeText={(text) => this.setState({ novoFilme: text })}
             returnKeyType="send"
-            onSubmitEditing={this.handleAddUser}
+            onSubmitEditing={this.handleAddFilme}
           />
-          <SubmitButton loading={loading} onPress={this.handleAddUser}>
+          <SubmitButton loading={loading} onPress={this.handleAddFilme}>
             {loading ? (
               <ActivityIndicator color="#fff" />
             ) : (
@@ -113,7 +113,7 @@ export default class Main extends Component {
         </Form>
         <List
           showsVerticalScrollIndicator={false}
-          data={users}
+          data={filmes}
           keyExtractor={(item) => item.id}
           renderItem={({ item }) => (
             <User>
