@@ -1,2 +1,1 @@
-Nome: Wilton Monteiro Resende
-Nome: Gustavo 
+Nome: Wilton Monteiro Resende e Gustavo Moreira Santos
