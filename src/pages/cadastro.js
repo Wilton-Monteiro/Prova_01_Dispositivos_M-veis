@@ -13,16 +13,19 @@ export default class CadastrarUsuario extends Component {
     email: "",
     password: "",
     nickname:"",
+    telefone:"",
+    curso:"",
+    cpf:"",
   };
 
   handleCadastro = async () => {
-    const { email, password, nickname } = this.state;
+    const { email, password, nickname, telefone, cpf, curso } = this.state;
     if (!email || !password || !nickname) {thread
       alert("Preencha todos os campos!");
       return;
     }
 
-    const user = { email, password, nickname };
+    const user = { email, password, nickname, telefone, cpf, curso };
 
     try {
       await AsyncStorage.setItem("user", JSON.stringify(user));
@@ -51,6 +54,27 @@ export default class CadastrarUsuario extends Component {
           secureTextEntry={true}
           value={this.state.password}
           onChangeText={(password) => this.setState({ password })}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="CPF"
+          secureTextEntry={true}
+          value={this.state.cpf}
+          onChangeText={(cpf) => this.setState({ cpf })}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Telefone"
+          secureTextEntry={true}
+          value={this.state.telefone}
+          onChangeText={(telefone) => this.setState({ telefone })}
+        />
+        <TextInput
+          style={styles.input}
+          placeholder="Curso"
+          secureTextEntry={true}
+          value={this.state.curso}
+          onChangeText={(curso) => this.setState({ curso })}
         />
         <TextInput
           style={styles.input}
